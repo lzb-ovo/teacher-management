@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzb.cloudlike.provider.dao.CartDao">
+    <insert id="insert" parameterType="com.lzb.cloudlike.common.dto.CartAddDto">
+        insert into t_cart (skuid,uid,jprice,scount,ctime) values (#{skuid},#{uid},#{jprice},#{count},#{ctime})
+    </insert>
+    <select id="queryBySkuid" parameterType="com.lzb.cloudlike.common.dto.CartAddDto" resultType="com.lzb.cloudlike.entity.Cart">
+        select * from t_cart where skuid = #{skuid} and uid = #{uid} limit 1
+    </select>
+    <update id="update" parameterType="com.lzb.cloudlike.common.dto.CartAddDto">
+        update t_cart set scount = scount+#{count} where skuid = #{skuid} and uid = #{uid}
+    </update>
+    <update id="updateByid" parameterType="com.lzb.cloudlike.common.dto.CartItemDto">
+        update t_cart set scount = scount+#{count} where id = #{id}
+    </update>
+    <delete id="delById" parameterType="int" >
+        delete * from t_cart where id = #{id}
+    </delete>
+</mapper>

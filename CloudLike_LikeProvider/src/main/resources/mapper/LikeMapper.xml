@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzb.cloudlike.provider.dao.LikeDao">
+    <insert id="insert" parameterType="com.lzb.cloudlike.common.dto.LikeAddDto">
+        insert into t_like(uid,cid,ctime) values (#{uid},#{cid},now())
+    </insert>
+    <delete id="del" parameterType="com.lzb.cloudlike.common.dto.LikeAddDto">
+        delete from t_like where uid = #{uid} and cid = #{cid}
+    </delete>
+    <select id="queryByCid" parameterType="int" resultType="com.lzb.cloudlike.entity.Like">
+        select * form t_like where cid = #{cid} order by ctime desc
+    </select>
+    <select id="querySingle" parameterType="com.lzb.cloudlike.common.dto.LikeAddDto" resultType="com.lzb.cloudlike.entity.Like">
+        select * from t_like where uid = #{uid} and cid = #{cid} limit 1;
+    </select>
+    <select id="queryCount" parameterType="int" resultType="com.lzb.cloudlike.common.dto.ContentLikeDto">
+        select count(*) ct,cid from t_like group by cid;
+    </select>
+    <insert id="insertBatch" parameterType="list">
+        insert into t_like(uid,cid,ctime) values
+        <foreach collection="list" item="l" separator="," open="(" close=")">
+            #{u.uid},#{u.cid},now()
+        </foreach>
+    </insert>
+</mapper>
